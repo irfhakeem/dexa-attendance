@@ -23,12 +23,14 @@ export class UsersController {
 
   @Roles('HR')
   @Post()
-  async create(
-    @Res() res: Response,
-    @Body() createUserDto: CreateUserDto,
-  ) {
+  async create(@Res() res: Response, @Body() createUserDto: CreateUserDto) {
     const data = await this.usersService.create(createUserDto);
-    return ResponseHelper.success(res, data, HttpStatus.CREATED);
+    return ResponseHelper.success(
+      res,
+      data,
+      HttpStatus.CREATED,
+      'User created successfully',
+    );
   }
 
   @Get()
@@ -64,13 +66,23 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     const data = await this.usersService.update(id, updateUserDto);
-    return ResponseHelper.success(res, data, HttpStatus.OK);
+    return ResponseHelper.success(
+      res,
+      data,
+      HttpStatus.OK,
+      'User updated successfully',
+    );
   }
 
   @Roles('HR')
   @Delete(':id')
   async remove(@Res() res: Response, @Param('id') id: string) {
     const data = await this.usersService.remove(id);
-    return ResponseHelper.success(res, data, HttpStatus.OK);
+    return ResponseHelper.success(
+      res,
+      data,
+      HttpStatus.OK,
+      'User deleted successfully',
+    );
   }
 }

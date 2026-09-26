@@ -1,7 +1,12 @@
+import 'dotenv/config';
 import { PrismaClient } from '../src/generated/prisma/client.js';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
+const connectionString =
+  process.env.DATABASE_URL || 'mysql://root:password@localhost:3306/dexa_db';
+const adapter = new PrismaMariaDb(connectionString);
+const prisma = new PrismaClient({ adapter });
 
 const DEPARTMENTS = [
   {
@@ -64,10 +69,10 @@ async function main() {
   const yearSuffix = String(currentYear).slice(-2);
   const hrGender = 'M';
   const genderCode = hrGender === 'M' ? '1' : '2';
-  const deptSequence = '01';
+  const month = '01';
   const sequenceNumber = 1;
   const sequenceStr = String(sequenceNumber).padStart(4, '0');
-  const hrNip = `${genderCode}${deptSequence}${yearSuffix}${sequenceStr}`;
+  const hrNip = `${genderCode}${month}${yearSuffix}${sequenceStr}`;
 
   await prisma.user.upsert({
     where: { nip: hrNip },

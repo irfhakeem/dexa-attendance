@@ -38,14 +38,14 @@ export class NipSequenceRepository {
     });
   }
 
-  async generateNip(gender: string, departmentCode: string, year?: number): Promise<string> {
-    const targetYear = year ?? new Date().getFullYear();
+  async generateNip(gender: string, date: Date = new Date()): Promise<string> {
+    const targetYear = date.getFullYear();
     const nextSeq = await this.getNextSequence(targetYear);
     const genderDigit = gender.toUpperCase() === 'M' ? '1' : '2';
-    const deptPadded = departmentCode.padStart(2, '0');
+    const monthMM = String(date.getMonth() + 1).padStart(2, '0');
     const yearSuffix = String(targetYear).slice(-2);
     const seqPadded = String(nextSeq).padStart(4, '0');
 
-    return `${genderDigit}${deptPadded}${yearSuffix}${seqPadded}`;
+    return `${genderDigit}${monthMM}${yearSuffix}${seqPadded}`;
   }
 }

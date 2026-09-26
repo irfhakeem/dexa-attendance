@@ -25,18 +25,9 @@ export class UsersService {
       createUserDto.departmentCode,
     );
 
-    let nip = createUserDto.nip;
-    if (nip) {
-      const existing = await this.usersRepository.findByNip(nip);
-      if (existing) {
-        throw new BadRequestException('NIP already registered');
-      }
-    } else {
-      nip = await this.nipSequenceRepository.generateNip(
-        createUserDto.gender,
-        department.code,
-      );
-    }
+    let nip = await this.nipSequenceRepository.generateNip(
+      createUserDto.gender,
+    );
 
     const rawPassword = createUserDto.password || 'password123';
     const hashedPassword = await this.bcryptService.hash(rawPassword);
