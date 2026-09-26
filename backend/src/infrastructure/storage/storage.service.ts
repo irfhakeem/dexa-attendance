@@ -4,6 +4,7 @@ import {
   PutObjectCommand,
   GetObjectCommand,
   DeleteObjectCommand,
+  CopyObjectCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -31,16 +32,18 @@ export class StorageService {
     });
   }
 
-  async upload(key: string, body: Buffer | Uint8Array, contentType?: string): Promise<string> {
+  async getPresignedUploadUrl(
+    key: string,
+    contentType: string,
+    expiresIn: number = 900,
+  ): Promise<string> {
     const command = new PutObjectCommand({
       Bucket: this.bucket,
       Key: key,
-      Body: body,
       ContentType: contentType,
     });
 
-    await this.s3Client.send(command);
-    return key;
+    return getSignedUrl(this.s3Client, command, { expiresIn });
   }
 
   async getPresignedUrl(key: string, expiresIn: number = 3600): Promise<string> {
@@ -52,8 +55,19 @@ export class StorageService {
     return getSignedUrl(this.s3Client, command, { expiresIn });
   }
 
-  getFileUrl(key: string): string {
-    return `${this.endpoint}/${this.bucket}/${key}`;
+  async move(sourceKey: string, destinationKey: string): Promise<void> {
+    const copyCommand = new CopyObjectCommand({
+      Bucket: this.bucket,
+      CopySource: `${this.bucket}/${sourceKey}`,
+      Key: destinationKey,
+    });
+    await this.s3Client.send(copyCommand);
+
+    const deleteCommand = new DeleteObjectCommand({
+      Bucket: this.bucket,
+      Key: sourceKey,
+    });
+    await this.s3Client.send(deleteCommand);
   }
 
   async delete(key: string): Promise<void> {
