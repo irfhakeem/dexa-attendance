@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UsersRepository } from './users.repository.js';
 import { NipSequenceRepository } from './nip-sequence.repository.js';
 import { DepartmentsService } from '../departments/departments.service.js';
@@ -24,6 +20,12 @@ export class UsersService {
     const department = await this.departmentsService.findOne(
       createUserDto.departmentCode,
     );
+
+    if (createUserDto.departmentCode == 'HR') {
+      createUserDto.isHR = true;
+    } else {
+      createUserDto.isHR = false;
+    }
 
     let nip = await this.nipSequenceRepository.generateNip(
       createUserDto.gender,
