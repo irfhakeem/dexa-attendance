@@ -144,13 +144,14 @@ export function AppHeader() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem
+                  variant="danger"
                   onClick={() => {
                     setIsDropdownOpen(false);
                     logout();
                   }}
-                  className={DS_BG.mutedHover}
+                  className="mt-1"
                 >
-                  <LogOut className={`w-3.5 h-3.5 ${DS_TEXT.secondary}`} />
+                  <LogOut className={`w-3.5 h-3.5 ${DS_TEXT.inverse}`} />
                   <span>Sign Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

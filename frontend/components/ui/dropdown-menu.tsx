@@ -31,16 +31,24 @@ export const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean;
+    variant?: "default" | "danger";
   }
->(({ className = "", inset, ...props }, ref) => (
-  <DropdownMenuPrimitive.Item
-    ref={ref}
-    className={`relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium ${DS_TEXT.primary} outline-none transition-colors hover:${DS_BG.muted} focus:${DS_BG.muted} data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
-      inset ? "pl-8" : ""
-    } ${className}`}
-    {...props}
-  />
-));
+>(({ className = "", inset, variant = "default", ...props }, ref) => {
+  const variantStyles =
+    variant === "danger"
+      ? `${DS_BG.danger} ${DS_TEXT.inverse} hover:${DS_BG.dangerHover} focus:${DS_BG.dangerHover} focus:${DS_TEXT.inverse}`
+      : `${DS_TEXT.primary} hover:${DS_BG.muted} focus:${DS_BG.muted}`;
+
+  return (
+    <DropdownMenuPrimitive.Item
+      ref={ref}
+      className={`relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${variantStyles} ${
+        inset ? "pl-8" : ""
+      } ${className}`}
+      {...props}
+    />
+  );
+});
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 export const DropdownMenuLabel = React.forwardRef<

@@ -623,72 +623,64 @@ export function MasterUserView() {
               return (
                 <Card
                   key={u.id}
-                  className={`p-5 shadow-xs ${DS_BORDER.default} space-y-3 transition-colors ${
+                  className={`p-4 shadow-xs ${DS_BORDER.default} space-y-3 transition-colors ${
                     isSelected ? `${DS_BG.app} ${DS_BORDER.medium}` : ""
                   }`}
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
                       <input
                         type="checkbox"
                         aria-label={`Select ${u.name}`}
                         checked={isSelected}
                         onChange={() => handleToggleSelect(u.id)}
-                        className={`h-4 w-4 rounded ${DS_BORDER.strong} ${DS_TEXT.primary} ${DS_FOCUS.checkbox} cursor-pointer`}
+                        className={`h-4 w-4 rounded ${DS_BORDER.strong} ${DS_TEXT.primary} ${DS_FOCUS.checkbox} cursor-pointer shrink-0`}
                       />
-                      <div>
-                        <h4 className={`text-sm font-bold ${DS_TEXT.primary}`}>{u.name}</h4>
+                      <div className="min-w-0">
+                        <h4 className={`text-sm font-bold ${DS_TEXT.primary} truncate`}>{u.name}</h4>
                         <p className={`text-xs ${DS_TEXT.secondary} tabular-nums`}>NIP: {u.nip}</p>
                       </div>
                     </div>
-                    <Badge variant={u.isHR ? "warning" : "info"}>
+                    <Badge variant={u.isHR ? "warning" : "info"} className="shrink-0">
                       {u.isHR ? "HR" : "Employee"}
                     </Badge>
                   </div>
 
-                  <div className={`text-xs space-y-1 ${DS_BG.app} p-2.5 rounded-lg border ${DS_BORDER.subtle}`}>
-                    <div className={`flex items-center justify-between ${DS_TEXT.primary}`}>
-                      <span className={DS_TEXT.secondary}>Department:</span>
-                      <span className="font-semibold">{u.department?.name || u.department?.code}</span>
-                    </div>
-                    <div className={`flex items-center justify-between ${DS_TEXT.primary}`}>
-                      <span className={DS_TEXT.secondary}>Gender:</span>
-                      <span>{u.gender === "M" ? "Male" : "Female"}</span>
-                    </div>
-                    <div className={`flex items-center justify-between ${DS_TEXT.primary}`}>
-                      <span className={DS_TEXT.secondary}>Today Attendance:</span>
-                      <Badge variant={u.is_attend ? "success" : "danger"}>
-                        {u.is_attend ? "Attended" : "Not Yet"}
-                      </Badge>
-                    </div>
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <span className={`truncate ${DS_TEXT.secondary}`}>
+                      {u.department?.name || u.department?.code || "-"} • {u.gender === "M" ? "Male" : "Female"}
+                    </span>
+                    <Badge variant={u.is_attend ? "success" : "danger"} className="shrink-0">
+                      {u.is_attend ? "Attended" : "Not Yet"}
+                    </Badge>
                   </div>
 
-                  <div className={`flex items-center justify-end gap-1.5 pt-2 ${DS_BORDER.subtle}`}>
+                  <div className={`flex items-center justify-end gap-1.5 pt-2.5 border-t ${DS_BORDER.subtle}`}>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => setDetailUser(u)}
-                      className="text-xs h-8 px-3"
+                      className="text-xs h-7 px-2.5"
                     >
-                      <Eye className={`w-4 h-4 mr-1 ${DS_TEXT.secondary}`} />
+                      <Eye className={`w-3.5 h-3.5 mr-1 ${DS_TEXT.secondary}`} />
                       Detail
                     </Button>
                     <Button
                       size="sm"
                       variant="secondary"
                       onClick={() => handleOpenEdit(u)}
-                      className="text-xs h-8 px-3"
+                      className="text-xs h-7 px-2.5"
                     >
-                      <Edit className={`w-4 h-4 mr-1 ${DS_TEXT.secondary}`} />
+                      <Edit className={`w-3.5 h-3.5 mr-1 ${DS_TEXT.secondary}`} />
                       Edit
                     </Button>
                     <Button
                       size="sm"
                       variant="danger"
                       onClick={() => setDeleteTarget(u)}
-                      className={`text-xs h-8 px-3 ${DS_TEXT.inverse}`}
+                      className={`text-xs h-7 px-2.5 ${DS_TEXT.inverse}`}
                     >
-                      <Trash2 className="w-4 h-4 mr-1" />
+                      <Trash2 className="w-3.5 h-3.5 mr-1" />
                       Delete
                     </Button>
                   </div>
@@ -706,35 +698,35 @@ export function MasterUserView() {
           title="User Details"
           maxWidth="sm"
         >
-          <div className="space-y-4 text-xs">
-            <div className={`p-4 ${DS_BG.app} rounded-xl border ${DS_BORDER.default}`}>
-              <h3 className={`text-base font-bold ${DS_TEXT.primary}`}>{detailUser.name}</h3>
-              <p className={`text-xs ${DS_TEXT.secondary} tabular-nums`}>NIP: {detailUser.nip}</p>
-              <div className="mt-2">
-                <Badge variant={detailUser.isHR ? "warning" : "info"}>
-                  {detailUser.isHR ? "HR" : "Employee"}
-                </Badge>
+          <div className="space-y-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className={`text-base font-bold ${DS_TEXT.primary}`}>{detailUser.name}</h3>
+                <p className={`text-xs ${DS_TEXT.secondary} tabular-nums mt-0.5`}>NIP: {detailUser.nip}</p>
               </div>
+              <Badge variant={detailUser.isHR ? "warning" : "info"}>
+                {detailUser.isHR ? "HR" : "Employee"}
+              </Badge>
             </div>
 
-            <div className={`space-y-2 p-4 ${DS_BG.surface} rounded-xl border ${DS_BORDER.default}`}>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Department:</span>
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Department</span>
                 <span className={`font-semibold ${DS_TEXT.primary}`}>{detailUser.department?.name || detailUser.department?.code}</span>
               </div>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Gender:</span>
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Gender</span>
                 <span className={DS_TEXT.primary}>{detailUser.gender === "M" ? "Male" : "Female"}</span>
               </div>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Today Attendance:</span>
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Today Attendance</span>
                 <Badge variant={detailUser.is_attend ? "success" : "danger"}>
                   {detailUser.is_attend ? "Attended" : "Not Yet"}
                 </Badge>
               </div>
               {detailUser.createdAt && (
-                <div className={`flex justify-between border-t ${DS_BORDER.subtle} pt-2`}>
-                  <span className={DS_TEXT.secondary}>Registered Date:</span>
+                <div className="flex items-center justify-between">
+                  <span className={DS_TEXT.secondary}>Registered Date</span>
                   <span className={`${DS_TEXT.primary} tabular-nums`}>{formatDate(detailUser.createdAt)}</span>
                 </div>
               )}

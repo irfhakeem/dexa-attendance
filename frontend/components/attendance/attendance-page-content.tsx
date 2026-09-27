@@ -120,30 +120,19 @@ export function AttendancePageContent() {
   return (
     <div className="max-w-lg mx-auto space-y-4">
       {hasCheckedInToday && todayRecord ? (
-        <div className={`${DS_BG.surface} border ${DS_BORDER.default} rounded-xl p-5 shadow-xs text-center space-y-5`}>
-          <div className={`inline-flex p-3 ${DS_BG.muted} ${DS_TEXT.primary} rounded-full border ${DS_BORDER.default}`}>
-            <CheckCircle2 className="w-8 h-8" />
-          </div>
-
-          <div className="space-y-1">
-            <div>
-              <Badge variant="success" className="px-3 py-1 text-xs font-semibold tracking-wide">
-                Already Checked In
-              </Badge>
+        <div className={`${DS_BG.surface} border ${DS_BORDER.default} rounded-xl p-5 shadow-xs space-y-4`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+              <h2 className={`text-sm font-bold ${DS_TEXT.primary}`}>
+                Attendance Completed
+              </h2>
             </div>
-            <h2 className={`text-base font-bold ${DS_TEXT.primary} pt-1`}>
-              Today&apos;s Attendance Completed
-            </h2>
-            <p className={`text-xs ${DS_TEXT.secondary}`}>
-              Recorded on{" "}
-              <span className={`font-semibold ${DS_TEXT.primary} tabular-nums`}>
-                {formatDateTime(todayRecord.date)} WIB
-              </span>
-            </p>
+            <Badge variant="success">Checked In</Badge>
           </div>
 
           {todayRecord.photoUrl && (
-            <div className={`w-48 h-48 mx-auto rounded-lg overflow-hidden border ${DS_BORDER.strong} ${DS_BG.dark} shadow-xs`}>
+            <div className={`w-36 h-36 mx-auto rounded-lg overflow-hidden border ${DS_BORDER.strong} ${DS_BG.dark} shadow-xs`}>
               <img
                 src={todayRecord.photoUrl}
                 alt="Today's Attendance Photo"
@@ -153,17 +142,27 @@ export function AttendancePageContent() {
             </div>
           )}
 
-          <div className={`p-5 ${DS_BG.app} rounded-lg border ${DS_BORDER.default} text-xs ${DS_TEXT.secondary} text-left space-y-2`}>
-            <div className="flex justify-between">
-              <span>Employee Name:</span>
-              <span className={`font-semibold ${DS_TEXT.primary}`}>{todayRecord.user?.name || user?.name}</span>
+          <div className="space-y-2 text-xs">
+            <div className="flex items-center justify-between">
+              <span className={DS_TEXT.secondary}>Attendance Time</span>
+              <span className={`font-semibold ${DS_TEXT.primary} tabular-nums`}>
+                {formatDateTime(todayRecord.date)} WIB
+              </span>
             </div>
-            <div className="flex justify-between">
-              <span>Employee ID:</span>
-              <span className={`font-medium ${DS_TEXT.primary} tabular-nums`}>{todayRecord.user?.nip || user?.nip}</span>
+            <div className="flex items-center justify-between">
+              <span className={DS_TEXT.secondary}>Employee Name</span>
+              <span className={`font-medium ${DS_TEXT.primary}`}>
+                {todayRecord.user?.name || user?.name}
+              </span>
             </div>
-            <div className="flex justify-between">
-              <span>Department:</span>
+            <div className="flex items-center justify-between">
+              <span className={DS_TEXT.secondary}>Employee ID</span>
+              <span className={`font-medium ${DS_TEXT.primary} tabular-nums`}>
+                {todayRecord.user?.nip || user?.nip}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className={DS_TEXT.secondary}>Department</span>
               <span className={`font-medium ${DS_TEXT.primary}`}>
                 {todayRecord.user?.department?.name || user?.department?.name || "-"}
               </span>
@@ -174,9 +173,9 @@ export function AttendancePageContent() {
             <Link href="/history">
               <Button
                 variant="outline"
-                size="sm"
+                size="lg"
                 leftIcon={<History className="w-4 h-4" />}
-                className="w-full text-xs font-semibold"
+                className="w-full font-semibold text-sm py-3 h-11 shadow-xs"
               >
                 View Attendance History
               </Button>

@@ -311,10 +311,10 @@ export function AttendanceRecordView() {
           onClose={() => setSelectedRecord(null)}
           title="Attendance Record Details"
           description={formatDateIndonesian(selectedRecord.date)}
-          maxWidth="md"
+          maxWidth="sm"
         >
-          <div className="space-y-4 text-xs">
-            <div className={`w-full aspect-4/3 max-w-sm mx-auto rounded-xl overflow-hidden border ${DS_BORDER.strong} ${DS_BG.dark} shadow-xs`}>
+          <div className="space-y-4">
+            <div className={`w-36 h-36 mx-auto rounded-xl overflow-hidden border ${DS_BORDER.strong} ${DS_BG.dark} shadow-xs`}>
               <img
                 src={selectedRecord.photoUrl}
                 alt="Employee Selfie Photo"
@@ -323,37 +323,36 @@ export function AttendanceRecordView() {
               />
             </div>
 
-            <div className={`p-5 ${DS_BG.app} rounded-xl border ${DS_BORDER.default} space-y-2`}>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Employee Name:</span>
-                <span className={`font-bold ${DS_TEXT.primary}`}>{selectedRecord.user?.name || "-"}</span>
+            <div className="space-y-2.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Employee Name</span>
+                <span className={`font-semibold ${DS_TEXT.primary}`}>{selectedRecord.user?.name || "-"}</span>
               </div>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Employee ID:</span>
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Employee ID</span>
                 <span className={`font-medium ${DS_TEXT.primary} tabular-nums`}>{selectedRecord.user?.nip || "-"}</span>
               </div>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Department:</span>
-                <span className={`font-semibold ${DS_TEXT.primary}`}>
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Department</span>
+                <span className={`font-medium ${DS_TEXT.primary}`}>
                   {selectedRecord.user?.department?.name || selectedRecord.user?.department?.code || "-"}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className={DS_TEXT.secondary}>Gender:</span>
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Gender</span>
                 <span className={DS_TEXT.primary}>
                   {selectedRecord.user?.gender === "M" ? "Male" : "Female"}
                 </span>
               </div>
-              <div className={`flex justify-between border-t ${DS_BORDER.default} pt-1.5`}>
-                <span className={DS_TEXT.secondary}>Attendance Time:</span>
+              <div className="flex items-center justify-between">
+                <span className={DS_TEXT.secondary}>Attendance Time</span>
                 <span className={`font-semibold ${DS_TEXT.primary} tabular-nums`}>
                   {formatDateTime(selectedRecord.date)} WIB
                 </span>
               </div>
             </div>
 
-            <div className={`flex items-center justify-between pt-2 border-t ${DS_BORDER.default}`}>
-              <span className={`text-[11px] ${DS_TEXT.secondary}`}>This attendance record is view-only</span>
+            <div className="flex justify-end pt-2">
               <Button size="sm" variant="secondary" onClick={() => setSelectedRecord(null)}>
                 Close
               </Button>
