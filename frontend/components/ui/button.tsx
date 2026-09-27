@@ -1,6 +1,6 @@
 import React from "react";
 import { Loader2 } from "lucide-react";
-import { DS_TEXT, DS_BG, DS_BORDER, DS_FOCUS, DS_STATUS } from "@/constants/design-system";
+import { DS_TEXT, DS_BG, DS_BORDER, DS_FOCUS } from "@/constants/design-system";
 
 export type ButtonVariant = "primary" | "secondary" | "outline" | "danger" | "ghost" | "subtle";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";

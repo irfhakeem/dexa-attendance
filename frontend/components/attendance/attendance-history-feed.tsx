@@ -8,10 +8,11 @@ import { AttendanceRecord } from "@/types/attendance";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SelectField } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
 import { formatDateIndonesian, formatTimeOnly } from "@/lib/date-utils";
 import {
   ArrowLeft,
-  Filter,
   Clock,
   Loader2,
   CheckCircle2,
@@ -139,48 +140,72 @@ export function AttendanceHistoryFeed() {
         <h1 className={`text-base font-bold ${DS_TEXT.primary} tracking-tight`}>Attendance History</h1>
       </div>
 
-      <div className={`${DS_BG.surface} border ${DS_BORDER.default} rounded-xl p-5 shadow-xs space-y-4`}>
-        <div className={`flex items-center justify-between text-xs font-semibold ${DS_TEXT.primary} uppercase tracking-wider`}>
-          <div className="flex items-center gap-1.5">
-            <Filter className={`w-3.5 h-3.5 ${DS_TEXT.secondary}`} />
-            <span>Filter Date & Order</span>
+      <Card className={`p-5 shadow-xs ${DS_BORDER.default} space-y-4`}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div>
+            <label className={`text-xs font-medium ${DS_TEXT.primary} mb-1.5 block`}>
+              Start Date
+            </label>
+            <Input
+              type="date"
+              placeholder="Start Date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
           </div>
-          {(startDate || endDate || orderBy !== "desc") && (
-            <button
-              onClick={handleResetFilters}
-              className={`text-xs ${DS_TEXT.secondary} ${DS_TEXT.primaryHover} underline lowercase`}
-            >
-              reset filter
-            </button>
-          )}
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <Input
-            type="date"
-            placeholder="From Date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-
-          <Input
-            type="date"
-            placeholder="To Date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
+          <div>
+            <label className={`text-xs font-medium ${DS_TEXT.primary} mb-1.5 block`}>
+              End Date
+            </label>
+            <Input
+              type="date"
+              placeholder="End Date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
 
           <SelectField
+            label="Sort Order"
             value={orderBy}
             onValueChange={(val) => setOrderBy(val as "desc" | "asc")}
             options={ATTENDANCE_ORDER_OPTIONS}
           />
         </div>
-      </div>
+
+        {(startDate || endDate || orderBy !== "desc") && (
+          <button
+            onClick={handleResetFilters}
+            className={`text-xs ${DS_TEXT.secondary} ${DS_TEXT.primaryHover} underline font-normal lowercase`}
+          >
+            reset filter
+          </button>
+        )}
+      </Card>
 
       {isLoadingInitial ? (
-        <div className={`p-12 text-center ${DS_TEXT.secondary} text-sm ${DS_BG.surface} rounded-xl border ${DS_BORDER.default} shadow-xs`}>
-          Loading history records...
+        <div className="space-y-4">
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className={`${DS_BG.surface} border ${DS_BORDER.default} rounded-xl overflow-hidden shadow-xs`}
+            >
+              <div className={`p-5 ${DS_BG.app}/75 border-b ${DS_BORDER.default} flex items-center justify-between`}>
+                <div className="flex items-center gap-2">
+                  <Skeleton className="w-2 h-2 rounded-full" />
+                  <Skeleton className="h-4 w-32" />
+                </div>
+                <Skeleton className="h-5 w-20 rounded" />
+              </div>
+              <div className="p-5 space-y-4">
+                <Skeleton className="w-full aspect-4/3 rounded-lg" />
+                <div className="flex items-center justify-end pt-1">
+                  <Skeleton className="h-4 w-28" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       ) : records.length === 0 ? (
         <div className={`p-12 text-center ${DS_BG.surface} rounded-xl border ${DS_BORDER.default} shadow-xs space-y-3`}>

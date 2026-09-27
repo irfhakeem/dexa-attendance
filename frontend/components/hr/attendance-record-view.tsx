@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { SelectField } from "@/components/ui/select";
 import { Modal } from "@/components/ui/modal";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableHeader,
@@ -102,7 +103,7 @@ export function AttendanceRecordView() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Name, NIP, or Department..."
+                placeholder="Name, NIP or Department..."
                 className={`w-full h-9 pl-9 pr-3 py-2 text-xs border ${DS_BORDER.strong} rounded-lg ${DS_TEXT.primary} ${DS_FOCUS.ring} ${DS_BG.surface}`}
               />
             </div>
@@ -162,9 +163,59 @@ export function AttendanceRecordView() {
       </Card>
 
       {isLoading ? (
-        <Card className={`p-12 text-center ${DS_TEXT.secondary} text-sm shadow-xs ${DS_BORDER.default}`}>
-          Loading attendance records...
-        </Card>
+        <>
+          <div className={`hidden lg:block ${DS_BG.surface} border ${DS_BORDER.default} rounded-xl overflow-hidden shadow-xs`}>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-center">Name & ID</TableHead>
+                  <TableHead className="text-center">Department</TableHead>
+                  <TableHead className="text-center">Attendance Time</TableHead>
+                  <TableHead className="text-center w-28">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...Array(5)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell>
+                      <div className="space-y-1.5">
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-3 w-20" />
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-28 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-32 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-8 w-8 rounded-lg mx-auto" />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 lg:hidden">
+            {[...Array(3)].map((_, i) => (
+              <Card key={i} className={`p-5 shadow-xs ${DS_BORDER.default} space-y-3`}>
+                <div className="flex items-start justify-between">
+                  <div className="space-y-1.5">
+                    <Skeleton className="h-4 w-28" />
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                  <Skeleton className="h-5 w-24 rounded" />
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <Skeleton className="h-3 w-24" />
+                  <Skeleton className="h-6 w-20 rounded" />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
       ) : attendances.length === 0 ? (
         <Card className={`p-12 text-center shadow-xs ${DS_BORDER.default} space-y-2`}>
           <Clock className={`w-8 h-8 ${DS_TEXT.secondary} mx-auto`} />

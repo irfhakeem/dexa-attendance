@@ -48,12 +48,15 @@ export function AttendanceCameraCard({
           </span>
         </div>
 
-        <Link
-          href="/history"
-          className={`inline-flex items-center gap-1.5 text-xs font-medium ${DS_TEXT.secondary} ${DS_TEXT.primaryHover} transition-colors border px-2.5 p-2 rounded-full ${DS_BORDER.darkContainer} ${DS_BG.app}/75`}
-        >
-          <History className="w-3.5 h-3.5" />
-          <span>History</span>
+        <Link href="/history">
+          <Button
+            size="sm"
+            variant="outline"
+            leftIcon={<History className="w-3.5 h-3.5" />}
+            className="text-xs font-semibold h-8 px-3"
+          >
+            History
+          </Button>
         </Link>
       </div>
 

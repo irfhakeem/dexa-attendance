@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { SelectField } from "@/components/ui/select";
 import { Modal } from "@/components/ui/modal";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableHeader,
@@ -65,7 +66,7 @@ export function MasterUserView() {
   const [formGender, setFormGender] = useState<"M" | "F">("M");
   const [formDept, setFormDept] = useState("");
   const [formIsHR, setFormIsHR] = useState(false);
-  const [formNip, setFormNip] = useState("");
+  const [_formNip, setFormNip] = useState("");
   const [formPassword, setFormPassword] = useState("");
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -392,9 +393,97 @@ export function MasterUserView() {
       )}
 
       {isLoading ? (
-        <Card className={`p-12 text-center ${DS_TEXT.secondary} text-sm shadow-xs ${DS_BORDER.default}`}>
-          Loading users...
-        </Card>
+        <>
+          <div className={`hidden lg:block ${DS_BG.surface} border ${DS_BORDER.default} rounded-xl overflow-hidden shadow-xs`}>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-12 px-3 text-center">
+                    <Skeleton className="h-4 w-4 mx-auto rounded" />
+                  </TableHead>
+                  <TableHead className="text-center">Name & ID</TableHead>
+                  <TableHead className="text-center">Role</TableHead>
+                  <TableHead className="text-center">Department</TableHead>
+                  <TableHead className="text-center">Gender</TableHead>
+                  <TableHead className="text-center">Today Attendance</TableHead>
+                  <TableHead className={`text-center sticky right-0 z-20 ${DS_BG.app} min-w-[140px]`}>
+                    Action
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...Array(5)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="w-12 px-3 text-center">
+                      <Skeleton className="h-4 w-4 mx-auto rounded" />
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1.5">
+                        <Skeleton className="h-4 w-32" />
+                        <Skeleton className="h-3 w-20" />
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-5 w-16 mx-auto rounded-full" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-24 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-4 w-12 mx-auto" />
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Skeleton className="h-5 w-16 mx-auto rounded-full" />
+                    </TableCell>
+                    <TableCell className={`text-center sticky right-0 z-10 min-w-[140px] ${DS_BG.surface}`}>
+                      <div className="flex items-center justify-center gap-1.5">
+                        <Skeleton className="h-8 w-8 rounded-lg" />
+                        <Skeleton className="h-8 w-8 rounded-lg" />
+                        <Skeleton className="h-8 w-8 rounded-lg" />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 lg:hidden">
+            {[...Array(3)].map((_, i) => (
+              <Card key={i} className={`p-5 shadow-xs ${DS_BORDER.default} space-y-3`}>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-4 w-4 rounded" />
+                    <div className="space-y-1.5">
+                      <Skeleton className="h-4 w-28" />
+                      <Skeleton className="h-3 w-16" />
+                    </div>
+                  </div>
+                  <Skeleton className="h-5 w-14 rounded-full" />
+                </div>
+                <div className={`p-2.5 rounded-lg border ${DS_BORDER.subtle} ${DS_BG.app} space-y-2`}>
+                  <div className="flex justify-between items-center">
+                    <Skeleton className="h-3 w-16" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <Skeleton className="h-3 w-12" />
+                    <Skeleton className="h-3 w-12" />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <Skeleton className="h-3 w-24" />
+                    <Skeleton className="h-4 w-16 rounded-full" />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-1.5 pt-2">
+                  <Skeleton className="h-8 w-16 rounded-lg" />
+                  <Skeleton className="h-8 w-16 rounded-lg" />
+                  <Skeleton className="h-8 w-8 rounded-lg" />
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
       ) : users.length === 0 ? (
         <Card className={`p-12 text-center shadow-xs ${DS_BORDER.default} space-y-2`}>
           <Users className={`w-8 h-8 ${DS_TEXT.secondary} mx-auto`} />

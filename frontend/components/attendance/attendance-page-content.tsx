@@ -9,6 +9,7 @@ import { AttendanceRecord } from "@/types/attendance";
 import { AttendanceCameraCard } from "./attendance-camera-card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AttendanceCheckInSkeleton } from "@/components/skeletons/page-skeletons";
 import { formatDateTime } from "@/lib/date-utils";
 import { CheckCircle2, History, Send, Lock } from "lucide-react";
 import { DS_TEXT, DS_BG, DS_BORDER } from "@/constants/design-system";
@@ -96,7 +97,11 @@ export function AttendancePageContent() {
     }
   };
 
-  if (!user && !isLoadingStatus) {
+  if (isLoadingStatus) {
+    return <AttendanceCheckInSkeleton />;
+  }
+
+  if (!user) {
     return (
       <div className="max-w-lg mx-auto">
         <div className={`p-8 ${DS_BG.surface} border ${DS_BORDER.default} rounded-xl text-center shadow-xs space-y-4`}>
@@ -114,11 +119,7 @@ export function AttendancePageContent() {
 
   return (
     <div className="max-w-lg mx-auto space-y-4">
-      {isLoadingStatus ? (
-        <div className={`p-12 text-center ${DS_TEXT.secondary} text-sm ${DS_BG.surface} rounded-xl border ${DS_BORDER.default} shadow-xs`}>
-          Checking today&apos;s attendance status...
-        </div>
-      ) : hasCheckedInToday && todayRecord ? (
+      {hasCheckedInToday && todayRecord ? (
         <div className={`${DS_BG.surface} border ${DS_BORDER.default} rounded-xl p-5 shadow-xs text-center space-y-5`}>
           <div className={`inline-flex p-3 ${DS_BG.muted} ${DS_TEXT.primary} rounded-full border ${DS_BORDER.default}`}>
             <CheckCircle2 className="w-8 h-8" />

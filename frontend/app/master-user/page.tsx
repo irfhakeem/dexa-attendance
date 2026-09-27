@@ -5,6 +5,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { MasterUserView } from "@/components/hr/master-user-view";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
+import { MasterUserPageSkeleton } from "@/components/skeletons/page-skeletons";
 import { ShieldAlert } from "lucide-react";
 import { DS_TEXT, DS_BG, DS_BORDER } from "@/constants/design-system";
 
@@ -14,7 +15,7 @@ export default function MasterUserPage() {
   return (
     <AppShell>
       {isLoading ? (
-        <div className={`p-12 text-center ${DS_TEXT.secondary} text-sm`}>Loading page...</div>
+        <MasterUserPageSkeleton />
       ) : !isHR ? (
         <div className={`max-w-md mx-auto p-5 ${DS_BG.surface} border ${DS_BORDER.default} rounded-xl text-center shadow-xs space-y-3`}>
           <ShieldAlert className={`w-10 h-10 ${DS_TEXT.secondary} mx-auto`} />

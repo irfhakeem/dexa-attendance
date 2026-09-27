@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { Sheet } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -98,7 +99,7 @@ export function AppHeader() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <div className={`hidden sm:flex items-center h-8 text-xs font-medium ${DS_TEXT.secondary} tabular-nums select-none mr-1`}>
-            {headerClock || "Loading..."}
+            {headerClock || <Skeleton className="h-4 w-28" />}
           </div>
 
           {user && isHR && (
@@ -211,7 +212,7 @@ export function AppHeader() {
                 System Time
               </div>
               <div className={`text-xs font-medium ${DS_TEXT.primary} tabular-nums`}>
-                {headerClock || "Loading..."}
+                {headerClock || <Skeleton className="h-4 w-28" />}
               </div>
             </div>
           </div>
